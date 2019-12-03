@@ -1,0 +1,77 @@
+%%%%%% December 2, 2019 %%%%%%%%
+The following code works to allow the loop to execute after a time interval
+function playGame(numberOfRounds) 
+			{	
+				var scoreArray = new Array();
+				
+				for (var i = 0; i < numberOfRounds; i++) 
+				{
+					(function (i) {
+						setTimeout(function ()
+						{
+							setProperties();
+							playOneRound();
+						}, 3000*i);
+					})(i);
+				}
+			}
+
+
+
+
+<script type="text/javascript">
+			
+			/*Start from here....you were having trouble displaying the div using the button. The issue was that the button was embedded into forms. This worked once
+			that was corrected. Next step is to see if you can use the button to call the createElement() function*/
+			document.getElementById("start").onclick = function()
+			{
+				var numberOfRounds = document.getElementById("rounds").value;
+				
+				/* uncomment later - this should appear in the playGame function though
+				i.e. as soon as the game starts.........
+				document.getElementById("displayElements").style.display = "block";
+				*/
+				
+				playGame(numberOfRounds);
+			}
+			
+			function playGame(numberOfRounds) 
+			{	
+				/*These works 
+				document.getElementById("displayElements").style.marginLeft = "1200px"
+				document.getElementById("displayElements").style.marginTop = "200px"
+				- get these to numbers that won't allow the scroll bars to appear
+				- if possible, create a border within which the boxes can show up
+				document.getElementById("displayElements").style.width = "100px";
+				document.getElementById("displayElements").style.height = "100px";
+				- get random to return a number between 80 and 200;
+				document.getElementById("displayElements").style.borderRadius = "50%";
+				- use 1 or 2 to decide on square or radius
+				*/
+			
+				var randomColor = colorGenerator();
+				document.getElementById("displayElements").style.backgroundColor = randomColor;
+				
+				/*All of the random components above work!
+				- Next Session: use timers to have a random delay between elements in each round - this has to be looped by the number of rounds
+								use timers to measure the lenght of time it takes to click - store all the times in an array and use that to display 
+								results e.g. shortest time, longest time, average time*/			}
+			
+			/*Used to generate random numbers for positioning, sizing, type*/
+			function generateRandomNumber(low, high)
+			{
+				var randomNumber = Math.floor(Math.random() * (high - low + 1)) + low;
+				
+				return randomNumber;
+			}
+			
+			/*Used to generate random colors for the elements*/
+			function colorGenerator() 
+			{
+			
+				var color = Math.floor(Math.random() * 16777216).toString(16);
+				
+				return '#000000'.slice(0, -color.length) + color;
+			}
+			
+		</script>

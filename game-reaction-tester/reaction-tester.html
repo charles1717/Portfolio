@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+	<head>
+		<title>reaction tester</title>
+		
+		<style type="text/css">
+		
+			#displayElements{
+				width:200px;
+				height:200px;
+				background-color:yellow;
+				display:none;
+				overflow:hidden;
+			}
+			
+			#game-area{
+				width:1520px;
+				height:410px;
+				background-color:#edf5ef;
+				border:1px solid black;
+				
+			}
+		
+		</style>
+	</head>
+
+
+	<body>
+		<h1>Test Your Reaction!</h1>
+		
+		<h2><ins>Instructions</ins></h2>
+		
+		<p>Click on the boxes and circles as quickly as you can. Select the number of rounds you'd like to play then 
+		click on the start button to begin.</p>
+		
+		<hr>
+		
+		<form>
+			<select id="rounds">
+				<option>10</option>
+				<option>20</option>
+				<option>50</option>
+				<option>100</option>
+			</select>
+		</form>
+		
+		<br>
+		
+		<button id="start">Start Game!</button>
+		
+		<hr>
+	
+		<p><b>Per Round Time: </b><span id="timeTaken"></span></p>
+		
+		<div id="game-area">
+		
+			<div id="displayElements"></div>
+		
+		</div>
+		
+		<p id="test"></p>
+		
+		<script type="text/javascript">
+			
+			document.getElementById("start").onclick = function()
+			{	
+				var numberOfRounds = document.getElementById("rounds").value;
+				
+				playGame(numberOfRounds);
+			}
+			
+			function playGame(numberOfRounds) 
+			{	
+			
+				for (var i = 0; i < numberOfRounds; i++) 
+				{
+					(function (i) {
+						setTimeout(function ()
+						{
+							setProperties();
+							playOneRound();
+						}, 3000*i);
+					})(i);
+				}
+			}
+			
+			
+			function setProperties() 
+			{
+				
+				var leftMargin = generateRandomNumber(0, 1200);
+				var topMargin = generateRandomNumber(0, 200);
+				var boxSize = generateRandomNumber(50, 200);
+				var circleOrSquare = generateRandomNumber(1, 10);
+				var randomColor = colorGenerator();
+				
+				document.getElementById("displayElements").style.marginLeft = leftMargin+'px';
+				document.getElementById("displayElements").style.marginTop = topMargin+'px';
+				document.getElementById("displayElements").style.width = boxSize+'px';
+				document.getElementById("displayElements").style.height = boxSize+'px';
+				document.getElementById("displayElements").style.backgroundColor = randomColor;
+			}
+			
+			function playOneRound()
+			{
+				
+				document.getElementById("displayElements").style.display = "block";
+				
+				var start = new Date().getTime();
+				
+				document.getElementById("displayElements").onclick = function () 
+				{
+					document.getElementById("displayElements").style.display = "none";
+					
+					var end = new Date().getTime();
+					
+					var timeTaken = (end - start)/1000;
+					
+					document.getElementById("timeTaken").innerHTML = timeTaken + "s";
+				}
+			}
+			
+			/*Used to generate random numbers for positioning, sizing, type*/
+			function generateRandomNumber(low, high)
+			{
+				var randomNumber = Math.floor(Math.random() * (high - low + 1)) + low;
+				
+				return randomNumber;
+			}
+			
+			/*Used to generate random colors for the elements*/
+			function colorGenerator() 
+			{
+			
+				var color = Math.floor(Math.random() * 16777216).toString(16);
+				
+				return '#000000'.slice(0, -color.length) + color;
+			}
+			
+		</script>
+	</body>
+</html>
